@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 # Go to root folder
 cd $(dirname $0)/..
