@@ -40,6 +40,7 @@ DEFAULT_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "authent.apps.AuthentConfig",
+    # "authent",
     "crispy_forms",
     "social_django",
     "userprofile",
