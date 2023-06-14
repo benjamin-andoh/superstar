@@ -22,7 +22,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 
-SECRET_KEY = "3u2q#*v*@cm)iwls7#6se9p+-w&%y+!i5g4r&bhkj7^so84hlw"
+SECRET_KEY = os.getenv("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -39,8 +39,8 @@ DEFAULT_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "authent.apps.AuthentConfig",
-    # "authent",
+    # "authent.apps.AuthentConfig",
+    "authent",
     "crispy_forms",
     "social_django",
     "userprofile",
