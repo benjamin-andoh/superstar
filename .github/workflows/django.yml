@@ -28,3 +28,15 @@ jobs:
 
       - name: Run tests
         run: python manage.py test
+
+      - name: Run Black
+        run: |
+          ./linters-scripts/black.sh
+
+      - name: Run Flake8
+        run: |
+          ./linters-scripts/flake8.sh
+
+      - name: Run Isort
+        run: |
+          ./linters-scripts/isort.sh
