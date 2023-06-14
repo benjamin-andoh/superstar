@@ -5,7 +5,7 @@ cd $(dirname $0)/..
 
 # Check for issues
 echo "Checking for issues with Flake8..."
-flake8 .
+flake8
 
 # If there are issues, exit with non-zero status
 if [ $? -ne 0 ]; then
