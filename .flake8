@@ -1,0 +1,13 @@
+[flake8]
+
+# Excluding paths
+exclude = migrations,settings.py,.git,__pycache__,build,dist,venv
+
+# Ignored error codes
+; ignore = E123,E456,E789
+
+# maximum line length
+max-line-length = 100
+
+# Enforcing coding style
+; select = E,F,W,C,B,B9

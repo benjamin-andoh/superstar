@@ -1,0 +1,6 @@
+venv
+queries.md
+authent/static
+authent/media
+.env
+node_modules 
