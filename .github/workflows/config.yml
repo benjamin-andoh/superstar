@@ -106,18 +106,16 @@ jobs:
 
             echo $PUBLIC_IP >> .github/cloudformation/ip-address.sh
 
-      - name: Get EC2 instance metadata
+      - name: Push into S3
         id: ec2-metadata
         run: |
-            SSH_USERNAME="ubuntu"
-            EC2_INSTANCE_IP=$PUBLIC_IP
-            SSH_KEY_PATH="${{ secrets.SUPERSTAR_SSH_KEY }}"
 
-            echo "${{ secrets.SUPERSTAR_SSH_KEY }}" > "$SSH_KEY_PATH"
-            chmod 600 "$SSH_KEY_PATH"
-
-            ssh -i "$SSH_KEY_PATH" "$SSH_USERNAME@$EC2_INSTANCE_IP"
-
+            aws deploy push \
+              --application-name superstar \
+              --description "This is my super-star application deployment" \
+              --ignore-hidden-files \
+              --s3-location s3://superstar-bucket/superstar-bucket.zip \
+              --source .
 
       - name: SSH into EC2 instance
         uses: appleboy/ssh-action@master
@@ -128,13 +126,9 @@ jobs:
 
           # Customize the following commands according to your setup
           script: |
-            # Install necessary dependencies (example commands for Ubuntu)
-            sudo apt-get update
-            sudo apt-get install -y python3 python3-pip
-
-            # Clone your Django application repository
-            git clone https://github.com/benjamin-andoh/superstar.git
-
-            # Install Python dependencies for Django application
-            cd superstar
-            
+            aws deploy create-deployment \
+              --application-name superstar \
+              --deployment-config-name CodeDeployDefault.OneAtATime \
+              --deployment-group-name superstar_group \
+              --file-exists-behavior OVERWRITE \
+              --s3-location bucket=superstar-bucket,key=superstar-bucket.zip,bundleType=zip

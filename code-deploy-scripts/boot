@@ -1,0 +1,4 @@
+#!/bin/bash
+cd /home/superstar &&
+    docker-compose up -d
+    

@@ -1,0 +1,15 @@
+version: 0.0
+os: linux
+files:
+  - source: /
+    destination: /home/superstar
+hooks:
+  BeforeInstall:
+    - location: code-deploy-scripts/before-install
+      timeout: 1000
+  AfterInstall:
+    - location: code-deploy-scripts/after-install
+      timeout: 1000
+  ApplicationStart:
+    - location: code-deploy-scripts/boot
+      timeout: 1000
