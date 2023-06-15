@@ -117,18 +117,19 @@ jobs:
               --s3-location s3://superstar-bucket/superstar-bucket.zip \
               --source .
 
-      - name: SSH into EC2 instance
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ steps.ec2-metadata.outputs.public_ip }}
-          username: ${{ steps.ec2-metadata.outputs.username }}
-          key: ${{ secrets.SUPERSTAR_SSH_KEY }}
+      # - name: SSH into EC2 instance
+      #   uses: appleboy/ssh-action@master
+      #   with:
+      #     host: ${{ steps.ec2-metadata.outputs.public_ip }}
+      #     username: ${{ steps.ec2-metadata.outputs.username }}
+      #     key: ${{ secrets.SUPERSTAR_SSH_KEY }}
 
           # Customize the following commands according to your setup
-          script: |
-            aws deploy create-deployment \
-              --application-name superstar \
-              --deployment-config-name CodeDeployDefault.OneAtATime \
-              --deployment-group-name superstar_group \
-              --file-exists-behavior OVERWRITE \
-              --s3-location bucket=superstar-bucket,key=superstar-bucket.zip,bundleType=zip
+      - name: Deploy
+        run: |
+          aws deploy create-deployment \
+            --application-name superstar \
+            --deployment-config-name CodeDeployDefault.OneAtATime \
+            --deployment-group-name superstar_group \
+            --file-exists-behavior OVERWRITE \
+            --s3-location bucket=superstar-bucket,key=superstar-bucket.zip,bundleType=zip
