@@ -28,7 +28,6 @@ Resources:
   #     Domain: vpc
   #     InstanceId: !Ref EC2Instance
 
-  
   EC2Instance:
     Type: AWS::EC2::Instance
     Properties:
@@ -56,9 +55,3 @@ Resources:
           sudo ./install auto > /tmp/logfile
           sudo service codedeploy-agent stop
           sudo service codedeploy-agent start
-
-Outputs:
-  ExportedRole:
-    Value: !Ref superstarInstanceRole
-    Export:
-      Name: "superstarInstanceRole"
