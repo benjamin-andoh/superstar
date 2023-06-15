@@ -1,16 +1,16 @@
 Description: >
   Superstar
 
-Parameters:
-  ID:
-    Description: Unique identifier.
-    Type: String
+# Parameters:
+#   ID:
+#     Description: Unique identifier.
+#     Type: String
 
 Resources:
   InstanceSecurityGroup:
     Type: AWS::EC2::SecurityGroup
     Properties:
-      GroupName: Superstar-${ID}
+      GroupName: Superstar
       GroupDescription: Allow port 22 and port 3030.
       SecurityGroupIngress:
         - IpProtocol: tcp
@@ -38,6 +38,6 @@ Resources:
       ImageId: ami-053b0d53c279acc90 
       Tags:
         - Key: Name
-          Value: !Sub Superstar-${ID}
+          Value: !Sub Superstar
         - Key: Project
           Value: Backend
