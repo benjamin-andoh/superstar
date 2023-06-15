@@ -74,11 +74,7 @@ jobs:
       - name: AWS Deploy Infrastructure
         id: deploy-stack
         run: |
-          aws cloudformation deploy \ 
-            --template-file .github/cloudformation/superstar-backend.yaml \ 
-            --stack-name superstar \ 
-            --region us-east-1 \
-            --parameter-overrides WorkflowID=${{ github.run_id }}
+          aws cloudformation deploy --template-file .github/cloudformation/superstar-backend.yaml --stack-name superstar --region us-east-1 --parameter-overrides WorkflowID=${{ github.run_id }}
       
       # - name: AWS Deploy application of Infrastructure
       #   run: | 
