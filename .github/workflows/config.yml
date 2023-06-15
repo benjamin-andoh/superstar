@@ -46,7 +46,7 @@ jobs:
           chmod +x ./linters-scripts/isort.sh
           ./linters-scripts/isort.sh
 
-  deployProcess:
+  deployInfrastructure:
     name: CD Pipeline
     runs-on: ubuntu-latest
     needs: buildProcess
@@ -81,6 +81,4 @@ jobs:
         run: |
           aws cloudformation deploy --template-file .github/cloudformation/superstar-backend.yaml --stack-name superstar --region us-east-1 --parameter-overrides ID=${{ steps.generate-id.outputs.id }}
       
-      # - name: AWS Deploy application of Infrastructure
-      #   run: | 
-
+  

@@ -4,3 +4,5 @@ authent/static
 authent/media
 .env
 node_modules 
+superstar.pem
+AdminUser_accessKeys.csv
