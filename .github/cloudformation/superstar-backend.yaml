@@ -28,7 +28,8 @@ Resources:
   #     Domain: vpc
   #     InstanceId: !Ref EC2Instance
 
-  EC2Instance:
+  
+          sudo service codedeploy-agent startEC2Instance:
     Type: AWS::EC2::Instance
     Properties:
       InstanceType: t2.micro
@@ -37,7 +38,7 @@ Resources:
       KeyName: superstar
       ImageId: ami-053b0d53c279acc90
       IamInstanceProfile:
-        Fn::ImportValue: !Sub "arn:aws:iam::703240068765:role/superstarInstanceRole"
+        Arn: arn:aws:iam::703240068765:role/superstarInstanceRole
       Tags:
         - Key: Name
           Value: !Sub Superstar
@@ -54,4 +55,9 @@ Resources:
           chmod +x ./install
           sudo ./install auto > /tmp/logfile
           sudo service codedeploy-agent stop
-          sudo service codedeploy-agent start
+
+Outputs:
+  ExportedRole:
+    Value: !Ref superstarInstanceRole
+    Export:
+      Name: "superstarInstanceRole"
