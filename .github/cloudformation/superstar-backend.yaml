@@ -29,7 +29,7 @@ Resources:
   #     InstanceId: !Ref EC2Instance
 
   
-          sudo service codedeploy-agent startEC2Instance:
+  EC2Instance:
     Type: AWS::EC2::Instance
     Properties:
       InstanceType: t2.micro
@@ -55,6 +55,7 @@ Resources:
           chmod +x ./install
           sudo ./install auto > /tmp/logfile
           sudo service codedeploy-agent stop
+          sudo service codedeploy-agent start
 
 Outputs:
   ExportedRole:
