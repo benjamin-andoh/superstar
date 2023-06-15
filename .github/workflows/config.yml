@@ -71,10 +71,15 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
 
+      - name: Generate ID
+        id: generate-id
+        run: |
+          echo "::set-output name=id::superstar-${{ github.run_id }}"
+
       - name: AWS Deploy Infrastructure
         id: deploy-stack
         run: |
-          aws cloudformation deploy --template-file .github/cloudformation/superstar-backend.yaml --stack-name superstar --region us-east-1 --parameter-overrides WorkflowID=${{ github.run_id }}
+          aws cloudformation deploy --template-file .github/cloudformation/superstar-backend.yaml --stack-name superstar --region us-east-1 --parameter-overrides ID=${{ steps.generate-id.outputs.id }}
       
       # - name: AWS Deploy application of Infrastructure
       #   run: | 
