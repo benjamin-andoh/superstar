@@ -79,7 +79,7 @@ jobs:
       - name: AWS Deploy Infrastructure
         id: deploy-stack
         run: |
-          aws cloudformation deploy --template-file .github/cloudformation/superstar-backend.yaml --stack-name superstar --region us-east-1 --parameter-overrides ID=${{ steps.generate-id.outputs.id }}
+          aws cloudformation deploy --template-file .github/cloudformation/superstar-backend.yaml --stack-name superstar --region us-east-1 
       
   prepare-ec2-instance:
     runs-on: ubuntu-latest
