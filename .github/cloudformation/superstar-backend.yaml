@@ -37,7 +37,7 @@ Resources:
       KeyName: superstar
       ImageId: ami-053b0d53c279acc90
       IamInstanceProfile:
-        Arn: arn:aws:iam::703240068765:role/superstarInstanceRole
+        Arn: "arn:aws:iam::703240068765:role/superstarInstanceRole"
       Tags:
         - Key: Name
           Value: !Sub Superstar
