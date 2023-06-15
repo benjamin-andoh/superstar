@@ -109,7 +109,7 @@ jobs:
       - name: Push into S3
         id: ec2-metadata
         run: |
-
+            sleep 60
             aws deploy push \
               --application-name superstar \
               --description "This is my super-star application deployment" \
