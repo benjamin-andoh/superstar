@@ -18,15 +18,9 @@ Resources:
           ToPort: 22
           CidrIp: 0.0.0.0/0
         - IpProtocol: tcp
-          FromPort: 3030
-          ToPort: 3030
+          FromPort: 8000
+          ToPort: 8000
           CidrIp: 0.0.0.0/0
-
-  # InstanceEIP:
-  #   Type: AWS::EC2::EIP
-  #   Properties:
-  #     Domain: vpc
-  #     InstanceId: !Ref EC2Instance
 
   EC2Instance:
     Type: AWS::EC2::Instance
@@ -42,14 +36,14 @@ Resources:
         - Key: Project
           Value: Backend
 
-      UserData:
-        Fn::Base64: !Sub |
-          #!/bin/bash
-          sudo apt update
-          sudo apt-get install -y ruby
-          cd /home/ubuntu
-          wget https://aws-codedeploy-us-east-1.s3.us-east-1.amazonaws.com/latest/install
-          chmod +x ./install
-          sudo ./install auto > /tmp/logfile
-          sudo service codedeploy-agent stop
-          sudo service codedeploy-agent start
+      # UserData:
+      #   Fn::Base64: !Sub |
+      #     #!/bin/bash
+      #     sudo apt update
+      #     sudo apt-get install -y ruby
+      #     cd /home/ubuntu
+      #     wget https://aws-codedeploy-us-east-1.s3.us-east-1.amazonaws.com/latest/install
+      #     chmod +x ./install
+      #     sudo ./install auto > /var/log/logfile
+      #     sudo service codedeploy-agent stop
+      #     sudo service codedeploy-agent start
