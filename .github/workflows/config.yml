@@ -95,34 +95,34 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
 
-      - name: Get the Instance Ip and save in an .sh file 
+      # - name: Get the Instance Ip and save in an .sh file 
+      #   run: |
+      #     PUBLIC_IP=$(aws ec2 describe-instances \
+      #       --filters "Name=tag:Name,Values=Superstar-${{ github.run_id }}" \
+      #       --query 'Reservations[*].Instances[*].PublicIpAddress' \
+      #       --output text)
+
+      #       echo "::set-output name=public_ip::$PUBLIC_IP"
+
+      #       echo $PUBLIC_IP >> .github/cloudformation/ip-address.sh
+
+      - name: Push into S3
+        id: ec2-metadata
         run: |
-          PUBLIC_IP=$(aws ec2 describe-instances \
-            --filters "Name=tag:Name,Values=Superstar-${{ github.run_id }}" \
-            --query 'Reservations[*].Instances[*].PublicIpAddress' \
-            --output text)
+            sleep 60
+            aws deploy push \
+              --application-name superstar_codedeploy \
+              --description "This is my super-star application deployment" \
+              --ignore-hidden-files \
+              --s3-location s3://superstar-bucket/superstar-bucket.zip \
+              --source .
 
-            echo "::set-output name=public_ip::$PUBLIC_IP"
-
-            echo $PUBLIC_IP >> .github/cloudformation/ip-address.sh
-
-      # - name: Push into S3
-      #   id: ec2-metadata
-      #   run: |
-      #       sleep 60
-      #       aws deploy push \
-      #         --application-name superstar \
-      #         --description "This is my super-star application deployment" \
-      #         --ignore-hidden-files \
-      #         --s3-location s3://superstar-bucket/superstar-bucket.zip \
-      #         --source .
-
-      # # Customize the following commands according to your setup
-      # - name: Deploy
-      #   run: |
-      #     aws deploy create-deployment \
-      #       --application-name superstar \
-      #       --deployment-config-name CodeDeployDefault.OneAtATime \
-      #       --deployment-group-name superstar_group \
-      #       --file-exists-behavior OVERWRITE \
-      #       --s3-location bucket=superstar-bucket,key=superstar-bucket.zip,bundleType=zip
+      # Customize the following commands according to your setup
+      - name: Deploy
+        run: |
+          aws deploy create-deployment \
+            --application-name superstar_codedeploy \
+            --deployment-config-name CodeDeployDefault.OneAtATime \
+            --deployment-group-name superstar_group \
+            --file-exists-behavior OVERWRITE \
+            --s3-location bucket=superstar-bucket,key=superstar-bucket.zip,bundleType=zip
