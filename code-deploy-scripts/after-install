@@ -1,4 +1,5 @@
 #!/bin/bash
-sudo chmod +x code-deploy-scripts/after-install
+
 cd /home/superstar &&
+    sudo chmod +x code-deploy-scripts/after-install &&
     docker-compose build --no-cache
