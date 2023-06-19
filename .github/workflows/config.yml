@@ -47,7 +47,7 @@ jobs:
           ./linters-scripts/isort.sh
 
   deployInfrastructure:
-    name: Deploy Infrastructure
+    name: deploy infrastructure
     runs-on: ubuntu-latest
     needs: buildProcess
     strategy:
@@ -82,7 +82,7 @@ jobs:
           aws cloudformation deploy --template-file .github/cloudformation/superstar-backend.yaml --stack-name superstar --region us-east-1 
       
   deployApplicationToWithCodeDeploy:
-    name: deploy Application and code deploy
+    name: deploy application with code deploy
     needs: deployInfrastructure
     runs-on: ubuntu-latest
 
