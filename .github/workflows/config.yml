@@ -47,7 +47,7 @@ jobs:
           ./linters-scripts/isort.sh
 
   deployInfrastructure:
-    name: CD Pipeline
+    name: Deploy Infrastructure
     runs-on: ubuntu-latest
     needs: buildProcess
     strategy:
@@ -81,7 +81,9 @@ jobs:
         run: |
           aws cloudformation deploy --template-file .github/cloudformation/superstar-backend.yaml --stack-name superstar --region us-east-1 
       
-  prepare-ec2-instance:
+  deployApplicationToWithCodeDeploy:
+    name: deploy Application and code deploy
+    needs: deployInfrastructure
     runs-on: ubuntu-latest
 
     steps:
