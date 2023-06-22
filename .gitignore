@@ -6,3 +6,4 @@ authent/media
 node_modules 
 superstar.pem
 AdminUser_accessKeys.csv
+.github/workflows

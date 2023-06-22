@@ -46,74 +46,74 @@ jobs:
           chmod +x ./linters-scripts/isort.sh
           ./linters-scripts/isort.sh
 
-  deployInfrastructure:
-    name: deploy infrastructure
-    runs-on: ubuntu-latest
-    needs: buildProcess
-    strategy:
-      matrix:
-        appname: ['superstar']
-        deploy-group: ['superstar']
-        # put code here
-    steps:
-      - uses: actions/checkout@v2
+  # deployInfrastructure:
+  #   name: deploy infrastructure
+  #   runs-on: ubuntu-latest
+  #   needs: buildProcess
+  #   strategy:
+  #     matrix:
+  #       appname: ['superstar']
+  #       deploy-group: ['superstar']
+  #       # put code here
+  #   steps:
+  #     - uses: actions/checkout@v2
 
-      - name: install AWS CLI 2   
-        run: |
-            curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-            unzip awscliv2.zip
-            sudo ./aws/install --update
+  #     - name: install AWS CLI 2   
+  #       run: |
+  #           curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+  #           unzip awscliv2.zip
+  #           sudo ./aws/install --update
 
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with: 
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-east-1
+  #     - name: Configure AWS credentials
+  #       uses: aws-actions/configure-aws-credentials@v1
+  #       with: 
+  #         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  #         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  #         aws-region: us-east-1
 
-      - name: Generate ID
-        id: generate-id
-        run: |
-          echo "::set-output name=id::superstar-${{ github.run_id }}"
+  #     - name: Generate ID
+  #       id: generate-id
+  #       run: |
+  #         echo "::set-output name=id::superstar-${{ github.run_id }}"
 
-      - name: AWS Deploy Infrastructure
-        id: deploy-stack
-        run: |
-          aws cloudformation deploy --template-file .github/cloudformation/superstar-backend.yaml --stack-name superstar --region us-east-1 
+  #     - name: AWS Deploy Infrastructure
+  #       id: deploy-stack
+  #       run: |
+  #         aws cloudformation deploy --template-file .github/cloudformation/superstar-backend.yaml --stack-name superstar --region us-east-1 
       
-  deployApplicationToWithCodeDeploy:
-    name: deploy application with code deploy
-    needs: deployInfrastructure
-    runs-on: ubuntu-latest
+  # deployApplicationToWithCodeDeploy:
+  #   name: deploy application with code deploy
+  #   needs: deployInfrastructure
+  #   runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+  #   steps:
+  #     - name: Checkout code
+  #       uses: actions/checkout@v2
 
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-east-1
+  #     - name: Configure AWS credentials
+  #       uses: aws-actions/configure-aws-credentials@v1
+  #       with:
+  #         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  #         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  #         aws-region: us-east-1
 
-      - name: Push into S3
-        id: ec2-metadata
-        run: |
-            sleep 60
-            aws deploy push \
-              --application-name superstar_codedeploy \
-              --description "This is my super-star application deployment" \
-              --ignore-hidden-files \
-              --s3-location s3://superstar-bucket/superstar-bucket.zip \
-              --source .
+  #     - name: Push into S3
+  #       id: ec2-metadata
+  #       run: |
+  #           sleep 60
+  #           aws deploy push \
+  #             --application-name superstar_codedeploy \
+  #             --description "This is my super-star application deployment" \
+  #             --ignore-hidden-files \
+  #             --s3-location s3://superstar-bucket/superstar-bucket.zip \
+  #             --source .
 
-      # Customize the following commands according to your setup
-      - name: Deploy
-        run: |
-          aws deploy create-deployment \
-            --application-name superstar_codedeploy \
-            --deployment-config-name CodeDeployDefault.OneAtATime \
-            --deployment-group-name superstar_group \
-            --file-exists-behavior OVERWRITE \
-            --s3-location bucket=superstar-bucket,key=superstar-bucket.zip,bundleType=zip
+  #     # Customize the following commands according to your setup
+  #     - name: Deploy
+  #       run: |
+  #         aws deploy create-deployment \
+  #           --application-name superstar_codedeploy \
+  #           --deployment-config-name CodeDeployDefault.OneAtATime \
+  #           --deployment-group-name superstar_group \
+  #           --file-exists-behavior OVERWRITE \
+  #           --s3-location bucket=superstar-bucket,key=superstar-bucket.zip,bundleType=zip
