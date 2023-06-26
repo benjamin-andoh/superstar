@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: superstar-deployment
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: superstar
+  template:
+    metadata:
+      labels:
+        app: superstar
+    spec:
+      containers:
+        - image: papaandoh/superstar
+          name: superstar-container
+          ports:
+          - containerPort: 8000
+
