@@ -43,3 +43,17 @@ spec:
                 secretKeyRef:
                   name: mysql-db-password
                   key: db-password
+          livenessProbe:
+            exec:
+              command:
+                - /bin/sh
+                - -c
+                - nc -z localhost 8095
+            initialDelaySeconds: 60
+            periodSeconds: 10 # how often to perform the probe
+          readinessProbe:
+            httpGet:
+              path: /usermgmt/health-status
+              port: 8095
+            initialDelaySeconds: 60
+            periodSeconds: 10
